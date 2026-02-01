@@ -26,18 +26,31 @@ func NewClient(logger *log.Logger) *Client {
 	return &Client{logger: logger}
 }
 
-// GetTodaysCommits returns commits made today in the given repository
-func (c *Client) GetTodaysCommits(ctx context.Context, repoPath string) ([]domain.Commit, error) {
-	// Get today's date at midnight in local timezone
-	now := time.Now()
-	midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
-	since := midnight.Format("2006-01-02T15:04:05")
+// GetCommits returns commits made since the given time in the given repository
+func (c *Client) GetCommits(ctx context.Context, repoPath string, since string) ([]domain.Commit, error) {
+	var sinceParam string
+
+	// Determine time window
+	if since == "" || since == "today" {
+		// Get today's date at midnight in local timezone
+		now := time.Now()
+		midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+		sinceParam = midnight.Format("2006-01-02T15:04:05")
+	} else {
+		// Try parsing as duration (e.g. "24h")
+		if d, err := time.ParseDuration(since); err == nil {
+			sinceParam = time.Now().Add(-d).Format("2006-01-02T15:04:05")
+		} else {
+			// Pass raw string to git (e.g. "yesterday", "2023-01-01")
+			sinceParam = since
+		}
+	}
 
 	// Git log format: hash|author|email|timestamp|subject
 	format := "%H|%an|%ae|%aI|%s"
 
 	cmd := exec.CommandContext(ctx, "git", "log",
-		"--since="+since,
+		"--since="+sinceParam,
 		"--no-merges",
 		"--format="+format,
 		"--all",

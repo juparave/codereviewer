@@ -58,6 +58,8 @@ func (f *Formatter) format(report *domain.Report) string {
 		sb.WriteString(fmt.Sprintf("**Reviewed:** %d commits across %d files in %d repositories\n\n",
 			report.CommitCount, report.FileCount, len(report.Repositories)))
 	}
+	// Add model name
+	sb.WriteString(fmt.Sprintf("**Model:** %s\n\n", report.Model))
 
 	// No findings case
 	if !report.HasFindings() {

@@ -15,7 +15,8 @@ type Config struct {
 	Email    EmailConfig   `yaml:"email"`
 	Review   ReviewConfig  `yaml:"review"`
 	Reports  ReportsConfig `yaml:"reports"`
-	Verbose  bool          `yaml:"-"` // Set via CLI only
+	Verbose  bool          `yaml:"-"`     // Set via CLI only
+	Since    string        `yaml:"since"` // Can be set via config or CLI
 }
 
 // EmailConfig holds email delivery settings
@@ -58,9 +59,8 @@ func DefaultConfig() *Config {
 		},
 		Review: ReviewConfig{
 			Strictness: "medium",
-			Provider:   "openai",
-			Model:      "glm-4.7",
-			BaseURL:    "https://api.z.ai/api/paas/v4",
+			Provider:   "googleai",
+			Model:      "gemini-2.0-flash",
 		},
 		Reports: ReportsConfig{
 			OutputDir: "reports",

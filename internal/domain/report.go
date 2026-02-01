@@ -11,6 +11,7 @@ type Report struct {
 	CommitCount   int
 	FileCount     int
 	NothingToNote bool
+	Model         string // The LLM model used for review
 }
 
 // HighCount returns the number of high severity findings

@@ -54,6 +54,7 @@ func (r *Runner) Run(ctx context.Context) error {
 	}
 
 	r.log("Starting code review for %s", r.config.RootPath)
+	r.log("Using LLM Provider: %s | Model: %s", r.config.Review.Provider, r.config.Review.Model)
 
 	// Step 1: Scan for repositories
 	r.log("Scanning for Git repositories...")
@@ -68,11 +69,16 @@ func (r *Runner) Run(ctx context.Context) error {
 		return nil
 	}
 
-	// Step 2: Find today's commits
-	r.log("Finding today's commits...")
+	// Step 2: Find commits
+	if r.config.Since != "" {
+		r.log("Finding commits since %s...", r.config.Since)
+	} else {
+		r.log("Finding today's commits...")
+	}
+
 	var allCommits []domain.Commit
 	for _, repoPath := range repos {
-		commits, err := r.git.GetTodaysCommits(ctx, repoPath)
+		commits, err := r.git.GetCommits(ctx, repoPath, r.config.Since)
 		if err != nil {
 			r.log("Warning: failed to get commits from %s: %v", repoPath, err)
 			continue
@@ -128,6 +134,7 @@ func (r *Runner) Run(ctx context.Context) error {
 		Repositories: repos,
 		CommitCount:  len(allCommits),
 		FileCount:    len(allDiffs),
+		Model:        r.config.Review.Model,
 	}
 
 	reportPath, err := r.report.Write(rpt)

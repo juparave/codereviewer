@@ -31,6 +31,9 @@ func main() {
 	rootCmd.Flags().BoolVar(&dryRun, "dry-run", false, "Scan repositories but don't send email")
 	rootCmd.Flags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
 
+	var since string
+	rootCmd.Flags().StringVar(&since, "since", "", "Time window for review (e.g. '24h', '7d', 'today')")
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -50,6 +53,11 @@ func run(cmd *cobra.Command, args []string) error {
 	}
 	if dryRun {
 		cfg.Email.Enabled = false
+	}
+	// Get --since flag value
+	since, _ := cmd.Flags().GetString("since")
+	if since != "" {
+		cfg.Since = since
 	}
 	cfg.Verbose = verbose
 

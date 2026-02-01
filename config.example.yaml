@@ -2,21 +2,26 @@
 # Copy to ~/.config/cra/config.yaml
 
 # Root directory to scan for Git repositories
-root_path: ~/projects
+root_path: ~/workspace
+
+# Default review time window (optional, default: today)
+# since: "24h"
 
 # LLM Review Settings
 review:
-  # Provider: openai (Zhipu AI, OpenAI, etc.) or googleai (Gemini)
-  provider: openai
+  # Provider: googleai (Gemini) or openai (Zhipu AI, etc.)
+  provider: googleai
   
   # Model name
-  model: glm-4.7
+  model: gemini-2.0-flash
   
-  # Custom API endpoint (for OpenAI-compatible APIs)
-  base_url: https://api.z.ai/api/paas/v4
-  
-  # API key (or set via ZHIPU_API_KEY / OPENAI_API_KEY env var)
+  # API key (or set via GEMINI_API_KEY env var)
   # api_key: your-api-key-here
+
+  # For Zhipu AI / OpenAI usage:
+  # provider: openai
+  # model: glm-4.7
+  # base_url: https://api.z.ai/api/paas/v4
   
   # Review strictness: low, medium, high
   strictness: medium
