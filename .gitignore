@@ -28,6 +28,8 @@ Thumbs.db
 
 # Config with secrets (use config.example.yaml as template)
 config.yaml
+config.gemini.yaml
+config.zai.yaml
 
 # Reports output
 reports/
