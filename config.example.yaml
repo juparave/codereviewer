@@ -1,0 +1,38 @@
+# Code Review Agent Configuration
+# Copy to ~/.config/cra/config.yaml
+
+# Root directory to scan for Git repositories
+root_path: ~/projects
+
+# LLM Review Settings
+review:
+  # Provider: openai (Zhipu AI, OpenAI, etc.) or googleai (Gemini)
+  provider: openai
+  
+  # Model name
+  model: glm-4.7
+  
+  # Custom API endpoint (for OpenAI-compatible APIs)
+  base_url: https://api.z.ai/api/paas/v4
+  
+  # API key (or set via ZHIPU_API_KEY / OPENAI_API_KEY env var)
+  # api_key: your-api-key-here
+  
+  # Review strictness: low, medium, high
+  strictness: medium
+
+# Email Notification Settings
+email:
+  enabled: false
+  send_at: "08:00"
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  smtp_user: your-email@gmail.com
+  # smtp_password: your-app-password
+  from_address: your-email@gmail.com
+  from_name: Code Review Agent
+  to_address: your-email@gmail.com
+
+# Report Storage
+reports:
+  output_dir: reports
