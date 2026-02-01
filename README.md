@@ -5,6 +5,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)
 ![Maintained](https://img.shields.io/badge/maintained-yes-green.svg)
+[![GitHub](https://img.shields.io/badge/repo-github-black)](https://github.com/juparave/codereviewer)
 
 > **Your personal senior engineer that works while you sleep.** 🌙
 
@@ -115,4 +116,4 @@ codereviewer/
 
 ## 📜 License
 
-MIT © [Pablo](https://github.com/juparave)
+MIT © [Juparave](https://github.com/juparave)
